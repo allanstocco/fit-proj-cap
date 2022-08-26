@@ -1,6 +1,0 @@
-POST http://localhost:8000/api/token/
-
-{
-    "email": "admin@admin.com",
-    "password": "132909"
-}
