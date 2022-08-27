@@ -9,7 +9,7 @@ class UserProfile(models.Model):
     bio = models.TextField()
 
     def __str__(self):
-        return self.user
+        return self.user.user_name
 
 
 class UserWorkout(models.Model):

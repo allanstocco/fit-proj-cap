@@ -19,3 +19,8 @@ class ProfileViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
 
     
+class ExercisesViewSet(viewsets.ModelViewSet):
+    queryset = Exercises.objects.all()
+    serializer_class = ExerciseSerializer
+    parser_classes = (MultiPartParser, FormParser, JSONParser)
+    permission_classes = (permissions.AllowAny,)
