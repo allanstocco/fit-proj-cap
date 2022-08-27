@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'user',
+    'gym',
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt.token_blacklist',
