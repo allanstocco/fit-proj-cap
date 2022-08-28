@@ -8,14 +8,23 @@ class ExerciseSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class UserWorkoutSessionSerializer(serializers.ModelSerializer):
+class ExerciseSetSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserWorkoutSession
+        model = ExerciseSets
+        fields = '__all__'
+
+
+class WorkoutExerciseSessionSerializer(serializers.ModelSerializer):
+    workout_exercise_set = ExerciseSetSerializer(
+        read_only=True, many=True)
+
+    class Meta:
+        model = WorkoutExerciseSession
         fields = '__all__'
 
 
 class WorkoutSerializer(serializers.ModelSerializer):
-    user_workout_session = UserWorkoutSessionSerializer(
+    user_workout_session = WorkoutExerciseSessionSerializer(
         read_only=True, many=True)
 
     class Meta:

@@ -9,22 +9,22 @@ class UserProfile(models.Model):
     bio = models.TextField()
 
     def __str__(self):
-        return self.user.user_name
+        return self.account_id.user_name
 
 
 class Workout(models.Model):
     workout_id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(UserProfile,
-                             on_delete=models.CASCADE, related_name='user_workout', related_query_name='user_workout')
+    user_profile = models.ForeignKey(UserProfile,
+                                     on_delete=models.CASCADE, related_name='user_workout', related_query_name='user_workout')
     workout_description = models.CharField(
         max_length=150, null=True, blank=True)
     start_time = models.DateTimeField(null=True, blank=True)
     end_time = models.DateTimeField(null=True, blank=True)
-    status = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.user} - {self.timestamp}'
+        return f'{self.user_profile} - {self.workout_description}'
 
 
 class Exercises(models.Model):
@@ -36,14 +36,18 @@ class Exercises(models.Model):
         return self.exercise
 
 
-
-class UserWorkoutSession(models.Model):
+class WorkoutExerciseSession(models.Model):
     workout_id = models.ForeignKey(
         Workout, on_delete=models.CASCADE, related_name='user_workout_session', related_query_name='user_workout_session', null=True, blank=True)
     exercise = models.ForeignKey(
         Exercises, on_delete=models.CASCADE, related_name='exercises', related_query_name='exercises')
-    exercise_reps = models.IntegerField(default=0, blank=True, null=True)
-    exercise_kg = models.IntegerField(default=0, blank=True, null=True)
 
     def __str__(self):
-        return self.exercise.exercise
+        return f'{self.exercise.exercise} => FROM => {self.workout_id}'
+
+
+class ExerciseSets(models.Model):
+    exercise_sets = models.ForeignKey(WorkoutExerciseSession, on_delete=models.CASCADE,
+                                      related_name='workout_exercise_set', related_query_name='workout_exercise_set', null=True, blank=True)
+    exercise_reps = models.IntegerField(default=0, blank=True, null=True)
+    exercise_kg = models.IntegerField(default=0, blank=True, null=True)

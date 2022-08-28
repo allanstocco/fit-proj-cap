@@ -6,14 +6,26 @@ from .models import *
 
 
 class WorkoutModelAdmin(admin.ModelAdmin):
-    list_display = ["user", "timestamp", "workout_id",
-                    "workout_description", "start_time", "end_time", "status"]
+    list_display = ["user_profile", "timestamp", "workout_id",
+                    "workout_description", "start_time", "end_time", "active"]
 
     class Meta:
         model = Workout
 
+class WorkoutExerciseSessionAdmin(admin.ModelAdmin):
+    list_display = ['workout_id', 'exercise']
 
+    class Meta:
+        model = WorkoutExerciseSession
+        
+class ExerciseSetsAdmin(admin.ModelAdmin):
+    list_display = ['exercise_sets']
+
+    class Meta:
+        model = WorkoutExerciseSession
+        
 admin.site.register(UserProfile)
 admin.site.register(Exercises)
-admin.site.register(UserWorkoutSession)
+admin.site.register(WorkoutExerciseSession, WorkoutExerciseSessionAdmin)
+admin.site.register(ExerciseSets, ExerciseSetsAdmin)
 admin.site.register(Workout, WorkoutModelAdmin)
