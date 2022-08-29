@@ -4,7 +4,7 @@ from django.conf import settings
 
 class UserProfile(models.Model):
     account_id = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="profile"
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True, related_name="profile"
     )
     bio = models.TextField()
 
@@ -17,6 +17,8 @@ class Workout(models.Model):
     user_profile = models.ForeignKey(UserProfile,
                                      on_delete=models.CASCADE, related_name='user_workout', related_query_name='user_workout')
     workout_description = models.CharField(
+        max_length=150, null=True, blank=True)
+    unique_str = models.CharField(
         max_length=150, null=True, blank=True)
     start_time = models.DateTimeField(null=True, blank=True)
     end_time = models.DateTimeField(null=True, blank=True)
