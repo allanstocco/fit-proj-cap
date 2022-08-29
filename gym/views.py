@@ -29,9 +29,13 @@ def challengeUser(request):
             recipient_list=['allanstocco@gmail.com'],
             fail_silently=False,
         )
-        return HttpResponseRedirect(reverse("gym:email"))
+        return render(request, "email.html", {
+            'msg': 'Mail sent successfully!'
+        })
     else:
-        return render(request, "email.html")
+        return render(request, "email.html", {
+            'msg': 'Something went wrong =('
+        })
 
 
 class ProfileViewSet(viewsets.ModelViewSet):
@@ -41,7 +45,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, pk):
         profile = get_object_or_404(self.queryset, pk=pk)
         serialize = UserSerializer(profile)
-        return Response(serialize.data)
+        return Response(serialize.data, status=status.HTTP_200_OK)
 
 
 class ExercisesViewSet(viewsets.ModelViewSet):
@@ -57,11 +61,8 @@ class WorkoutViewSet(viewsets.ModelViewSet):
         user_workout = Workout.objects.filter(workout_description=str)
         serialize = WorkoutSerializer(user_workout, many=True)
         return Response(serialize.data, status=status.HTTP_200_OK)
-    
+
     def retrieve(self, request, pk):
         user_workout = get_object_or_404(self.queryset, pk=pk)
         serialize = WorkoutSerializer(user_workout)
         return Response(serialize.data, status=status.HTTP_200_OK)
-
-
-    

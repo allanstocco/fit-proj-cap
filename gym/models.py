@@ -26,7 +26,7 @@ class Workout(models.Model):
     workout_description = models.CharField(
         max_length=150, null=True, blank=True)
     goal = models.CharField(
-        max_length=20, blank=True, choices=goals, default="OTHER")
+        max_length=20, blank=True, choices=goals)
     unique_str = models.CharField(
         max_length=150, null=True, blank=True)
     start_time = models.DateTimeField(null=True, blank=True)
@@ -52,6 +52,9 @@ class WorkoutExerciseSession(models.Model):
         Workout, on_delete=models.CASCADE, related_name='user_workout_session', related_query_name='user_workout_session')
     exercise = models.ForeignKey(
         Exercises, on_delete=models.CASCADE, related_name='exercises', related_query_name='exercises')
+    date_name = models.CharField(
+        default='', max_length=20, null=True, blank=True)
+    date = models.DateField(null=True, blank=True)
     complete = models.BooleanField(default=False)
 
     def __str__(self):
@@ -61,5 +64,5 @@ class WorkoutExerciseSession(models.Model):
 class ExerciseSets(models.Model):
     exercise_sets = models.ForeignKey(WorkoutExerciseSession, on_delete=models.CASCADE,
                                       related_name='workout_exercise_set', related_query_name='workout_exercise_set', null=True, blank=True)
-    exercise_reps = models.IntegerField(default=0, blank=True, null=True)
-    exercise_kg = models.IntegerField(default=0, blank=True, null=True)
+    reps = models.IntegerField(default=0, blank=True, null=True)
+    weights = models.IntegerField(default=0, blank=True, null=True)
