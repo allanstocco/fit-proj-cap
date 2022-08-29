@@ -6,8 +6,10 @@ from rest_framework.response import Response
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect, render
+from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 
+from django.urls import reverse
 from user.serializer import *
 from .serializer import *
 from .models import *
@@ -18,17 +20,16 @@ def challengeUser(request):
         message_name = request.POST['message_name']
         message_email = request.POST['message_email']
         message_body = request.POST['message_body']
+        print(message_name)
 
         send_mail(
             subject=message_name,
             message=message_body,
             from_email=settings.EMAIL_HOST_USER,
-            recipient_list=['allanstocco@hotmail.com'],
+            recipient_list=['allanstocco@gmail.com'],
             fail_silently=False,
         )
-        return render(request, "email.html", {
-            "Message": "SUCCESS"
-        })
+        return HttpResponseRedirect(reverse("gym:email"))
     else:
         return render(request, "email.html")
 
