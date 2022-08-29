@@ -11,16 +11,17 @@ class ExerciseSerializer(serializers.ModelSerializer):
 class ExerciseSetSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExerciseSets
-        fields = '__all__'
+        fields = ['exercise_reps', 'exercise_kg']
 
 
 class WorkoutExerciseSessionSerializer(serializers.ModelSerializer):
     workout_exercise_set = ExerciseSetSerializer(
         read_only=True, many=True)
-
+    exercise_name = serializers.CharField(source='exercise.exercise')
+    
     class Meta:
         model = WorkoutExerciseSession
-        fields = '__all__'
+        fields = ['exercise','exercise_name', 'complete', 'workout_exercise_set']
 
 
 class WorkoutSerializer(serializers.ModelSerializer):
@@ -29,7 +30,8 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workout
-        fields = '__all__'
+        fields = ['workout_id', 'user_profile', 'workout_description', 'unique_str', 'goal', 'active',
+                  'start_time', 'end_time', 'created_at', 'user_workout_session']
 
 
 class UserSerializer(serializers.ModelSerializer):

@@ -1,15 +1,15 @@
+from django.conf import settings
 from django.http import JsonResponse
-from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
-from rest_framework import status, permissions, viewsets
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import status, viewsets
 from rest_framework.response import Response
+from django.http import HttpResponseRedirect
+
+
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect, render
-from django.http import HttpResponse, HttpResponseRedirect
-from django.conf import settings
-
+from django.shortcuts import render
 from django.urls import reverse
+
 from user.serializer import *
 from .serializer import *
 from .models import *
@@ -53,7 +53,15 @@ class WorkoutViewSet(viewsets.ModelViewSet):
     queryset = Workout.objects.all()
     serializer_class = WorkoutSerializer
 
-    def retrieve(self, request, str):
+    def pair(self, request, str):
         user_workout = Workout.objects.filter(workout_description=str)
         serialize = WorkoutSerializer(user_workout, many=True)
-        return Response(serialize.data)
+        return Response(serialize.data, status=status.HTTP_200_OK)
+    
+    def retrieve(self, request, pk):
+        user_workout = get_object_or_404(self.queryset, pk=pk)
+        serialize = WorkoutSerializer(user_workout)
+        return Response(serialize.data, status=status.HTTP_200_OK)
+
+
+    

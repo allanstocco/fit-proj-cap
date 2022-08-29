@@ -6,7 +6,7 @@ from .models import *
 
 
 class WorkoutModelAdmin(admin.ModelAdmin):
-    list_display = ["user_profile", "timestamp", "workout_id",
+    list_display = ["user_profile", "created_at", "workout_id",
                     "workout_description", "start_time", "end_time", "active"]
 
     class Meta:
