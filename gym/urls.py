@@ -29,6 +29,8 @@ urlpatterns = [
          WorkoutViewSet.as_view({'get': 'pair'}), name="workout_pair"),
     path('workout/active/<int:bool>',
          WorkoutViewSet.as_view({'get': 'active'}), name="workout_active"),
+    path('workout/post',
+         WorkoutViewSet.as_view({'post': 'create_workout'}), name="create_workout"),
     
     
     

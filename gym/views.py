@@ -82,6 +82,24 @@ class WorkoutViewSet(viewsets.ModelViewSet):
         active_workout = Workout.objects.filter(active=bool)
         serialize = WorkoutSerializer(active_workout, many=True)
         return Response(serialize.data, status=status.HTTP_200_OK)
+    
+    def create_workout(self, request):
+        data = request.data
+        serializer = WorkoutSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
+
+    def session_set_exercises_post(self, request):
+        data = request.data
+        serializer = ExerciseSetSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
 
 
 class WorkoutExerciseSessionViewSet(viewsets.ModelViewSet):
@@ -116,8 +134,7 @@ class WorkoutExerciseSessionSetsViewSet(viewsets.ModelViewSet):
         data = request.data
         serializer = ExerciseSetSerializer(data=data)
         if serializer.is_valid():
-            filter = data.pop('workout_id')
-            serializer.create(filter)
-            return Response(status=status.HTTP_201_CREATED)
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
         else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
