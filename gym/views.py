@@ -47,6 +47,15 @@ class ProfileViewSet(viewsets.ModelViewSet):
         serialize = UserSerializer(profile)
         return Response(serialize.data, status=status.HTTP_200_OK)
 
+    def user_workouts(self, request, pk):
+        user_workouts = Workout.objects.filter(user_profile=pk)
+        serialize = WorkoutSerializer(user_workouts, many=True)
+        return Response(serialize.data, status=status.HTTP_200_OK)
+    
+    def user_workouts_active(self, request, pk, bool):
+        user_workouts_active = Workout.objects.filter(user_profile=pk, active=bool)
+        serialize = WorkoutSerializer(user_workouts_active, many=True)
+        return Response(serialize.data, status=status.HTTP_200_OK)
 
 class ExercisesViewSet(viewsets.ModelViewSet):
     queryset = Exercises.objects.all()
@@ -65,4 +74,9 @@ class WorkoutViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, pk):
         user_workout = get_object_or_404(self.queryset, pk=pk)
         serialize = WorkoutSerializer(user_workout)
+        return Response(serialize.data, status=status.HTTP_200_OK)
+
+    def active(self, request, bool):
+        active_workout = Workout.objects.filter(active=bool)
+        serialize = WorkoutSerializer(active_workout, many=True)
         return Response(serialize.data, status=status.HTTP_200_OK)

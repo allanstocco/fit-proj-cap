@@ -11,7 +11,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
 class ExerciseSetSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExerciseSets
-        fields = ['exercise_reps', 'exercise_kg']
+        fields = ['pk','reps', 'weights']
 
 
 class WorkoutExerciseSessionSerializer(serializers.ModelSerializer):
