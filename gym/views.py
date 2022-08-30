@@ -53,7 +53,6 @@ class ProfileViewSet(viewsets.ModelViewSet):
         return Response(serialize.data, status=status.HTTP_200_OK)
 
     def user_workouts_active(self, request, pk):
-        today = date.today()
         user_workouts_active = Workout.objects.filter(
             user_profile=pk, active=True)
         serializer = WorkoutSerializer(user_workouts_active, many=True)
@@ -89,11 +88,34 @@ class WorkoutExerciseSessionViewSet(viewsets.ModelViewSet):
     queryset = WorkoutExerciseSession.objects.all()
     serializer_class = WorkoutExerciseSessionSerializer
 
-    def workouts_active_session(self, request):
-
+    def workouts_active_session(self, request, pk):
         today = date.today()
-        user_workouts_active = WorkoutExerciseSession.objects.all()
+        user_workouts_active = WorkoutExerciseSession.objects.filter(
+            workout_id=pk, date=today)
         serialize = WorkoutExerciseSessionSerializer(
             user_workouts_active, many=True)
         print(serialize)
         return Response(serialize.data, status=status.HTTP_200_OK)
+
+    def workouts_active_session_exercises_post(self, request):
+        if request.method == 'POST':
+            data = request.POST
+            print(data)
+
+
+class WorkoutExercisesViewSet(viewsets.ModelViewSet):
+    queryset = Exercises.objects.all()
+    serializer_class = ExerciseSerializer
+
+
+class WorkoutExerciseSessionSetsViewSet(viewsets.ModelViewSet):
+    queryset = ExerciseSets.objects.all()
+    serializer_class = ExerciseSetSerializer
+
+    def session_set_exercises_post(self, request):
+        data = request.data
+        serializer = ExerciseSetSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            pass

@@ -29,8 +29,20 @@ urlpatterns = [
          WorkoutViewSet.as_view({'get': 'pair'}), name="workout_pair"),
     path('workout/active/<int:bool>',
          WorkoutViewSet.as_view({'get': 'active'}), name="workout_active"),
-    
+
     # WORKOUT SESSION DAY
-     path('workout/sessionday',
+    path('sessions/workout/<int:pk>/sessionday',
          WorkoutExerciseSessionViewSet.as_view({'get': 'workouts_active_session'}), name="workouts_session_active"),
+    path('sessions/workout/<int:pk>',
+         WorkoutExerciseSessionViewSet.as_view({'post': 'workouts_active_session_exercises_post'}), name="workouts_active_session_exercises_post"),
+
+    # WORKOUT EXERCISES
+    path('exercise/all',
+         WorkoutExercisesViewSet.as_view({'get': 'list'}), name="all"),
+
+    # WORKOUT SETS
+    path('sets/all',
+         WorkoutExerciseSessionSetsViewSet.as_view({'get': 'list'}), name='all_sets'),
+    path('sets/post',
+         WorkoutExerciseSessionSetsViewSet.as_view({'post': 'session_set_exercises_post'}), name='post_sets'),
 ]

@@ -7,12 +7,11 @@ class ExerciseSerializer(serializers.ModelSerializer):
         model = Exercises
         fields = '__all__'
 
-
 class ExerciseSetSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = ExerciseSets
         fields = ['pk','reps', 'weights']
-
 
 class WorkoutExerciseSessionSerializer(serializers.ModelSerializer):
     workout_exercise_set = ExerciseSetSerializer(
@@ -21,7 +20,7 @@ class WorkoutExerciseSessionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkoutExerciseSession
-        fields = ['workout_id','exercise', 'exercise_name', 'date_name',
+        fields = ['pk','workout_id','exercise', 'exercise_name', 'date_name',
                   'date', 'complete', 'workout_exercise_set']
 
 
