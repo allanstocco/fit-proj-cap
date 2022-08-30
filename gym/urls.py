@@ -14,7 +14,7 @@ urlpatterns = [
          ProfileViewSet.as_view({'get': 'retrieve'}), name="profile"),
     path('profile/workouts/<int:pk>',
          ProfileViewSet.as_view({'get': 'user_workouts'}), name="profile_workouts"),
-    path('profile/workouts/<int:pk>/active/<int:bool>',
+    path('profile/workouts/<int:pk>/active',
          ProfileViewSet.as_view({'get': 'user_workouts_active'}), name="profile_workouts_active"),
 
     # EXERCISES PATHS
@@ -29,5 +29,8 @@ urlpatterns = [
          WorkoutViewSet.as_view({'get': 'pair'}), name="workout_pair"),
     path('workout/active/<int:bool>',
          WorkoutViewSet.as_view({'get': 'active'}), name="workout_active"),
-
+    
+    # WORKOUT SESSION DAY
+     path('workout/sessionday',
+         WorkoutExerciseSessionViewSet.as_view({'get': 'workouts_active_session'}), name="workouts_session_active"),
 ]

@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from django.http import HttpResponseRedirect
-
+from datetime import date
 
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
@@ -51,11 +51,14 @@ class ProfileViewSet(viewsets.ModelViewSet):
         user_workouts = Workout.objects.filter(user_profile=pk)
         serialize = WorkoutSerializer(user_workouts, many=True)
         return Response(serialize.data, status=status.HTTP_200_OK)
-    
-    def user_workouts_active(self, request, pk, bool):
-        user_workouts_active = Workout.objects.filter(user_profile=pk, active=bool)
-        serialize = WorkoutSerializer(user_workouts_active, many=True)
-        return Response(serialize.data, status=status.HTTP_200_OK)
+
+    def user_workouts_active(self, request, pk):
+        today = date.today()
+        user_workouts_active = Workout.objects.filter(
+            user_profile=pk, active=True)
+        serializer = WorkoutSerializer(user_workouts_active, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 class ExercisesViewSet(viewsets.ModelViewSet):
     queryset = Exercises.objects.all()
@@ -79,4 +82,17 @@ class WorkoutViewSet(viewsets.ModelViewSet):
     def active(self, request, bool):
         active_workout = Workout.objects.filter(active=bool)
         serialize = WorkoutSerializer(active_workout, many=True)
+        return Response(serialize.data, status=status.HTTP_200_OK)
+
+
+class WorkoutExerciseSessionViewSet(viewsets.ModelViewSet):
+    queryset = WorkoutExerciseSession.objects.all()
+    serializer_class = WorkoutExerciseSessionSerializer
+
+    def workouts_active_session(self, request):
+
+        today = date.today()
+        user_workouts_active = get_object_or_404(self.queryset)
+        serialize = WorkoutExerciseSessionSerializer(
+            user_workouts_active, many=True)
         return Response(serialize.data, status=status.HTTP_200_OK)

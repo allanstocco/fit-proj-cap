@@ -21,14 +21,14 @@ class WorkoutExerciseSessionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkoutExerciseSession
-        fields = ['exercise', 'exercise_name', 'date_name',
+        fields = ['workout_id','exercise', 'exercise_name', 'date_name',
                   'date', 'complete', 'workout_exercise_set']
 
 
 class WorkoutSerializer(serializers.ModelSerializer):
     user_workout_session = WorkoutExerciseSessionSerializer(
         read_only=True, many=True)
-
+    
     class Meta:
         model = Workout
         fields = ['workout_id', 'user_profile', 'workout_description', 'unique_str', 'goal', 'active',
