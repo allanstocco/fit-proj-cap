@@ -92,7 +92,8 @@ class WorkoutExerciseSessionViewSet(viewsets.ModelViewSet):
     def workouts_active_session(self, request):
 
         today = date.today()
-        user_workouts_active = get_object_or_404(self.queryset)
+        user_workouts_active = WorkoutExerciseSession.objects.all()
         serialize = WorkoutExerciseSessionSerializer(
             user_workouts_active, many=True)
+        print(serialize)
         return Response(serialize.data, status=status.HTTP_200_OK)
