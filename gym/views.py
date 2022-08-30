@@ -116,6 +116,8 @@ class WorkoutExerciseSessionSetsViewSet(viewsets.ModelViewSet):
         data = request.data
         serializer = ExerciseSetSerializer(data=data)
         if serializer.is_valid():
-            serializer.save()
+            filter = data.pop('workout_id')
+            serializer.create(filter)
+            return Response(status=status.HTTP_201_CREATED)
         else:
-            pass
+            return Response(status=status.HTTP_400_BAD_REQUEST)
