@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from django.http import HttpResponseRedirect
 from datetime import date
 
+
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
@@ -97,11 +98,6 @@ class WorkoutExerciseSessionViewSet(viewsets.ModelViewSet):
         print(serialize)
         return Response(serialize.data, status=status.HTTP_200_OK)
 
-    def workouts_active_session_exercises_post(self, request):
-        if request.method == 'POST':
-            data = request.POST
-            print(data)
-
 
 class WorkoutExercisesViewSet(viewsets.ModelViewSet):
     queryset = Exercises.objects.all()
@@ -115,9 +111,9 @@ class WorkoutExerciseSessionSetsViewSet(viewsets.ModelViewSet):
     def session_set_exercises_post(self, request):
         data = request.data
         serializer = ExerciseSetSerializer(data=data)
+        print(serializer)
         if serializer.is_valid():
-            filter = data.pop('workout_id')
-            serializer.create(filter)
+            serializer.save()
             return Response(status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)

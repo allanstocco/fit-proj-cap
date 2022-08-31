@@ -23,10 +23,13 @@ urlpatterns = [
 
     # WORKOUT PATHS
     path('workout', WorkoutViewSet.as_view({'get': 'list'}), name="workout"),
+    
     path('workout/<int:pk>',
          WorkoutViewSet.as_view({'get': 'retrieve'}), name="workout_pk"),
+    
     path('workout/<str:str>',
          WorkoutViewSet.as_view({'get': 'pair'}), name="workout_pair"),
+    
     path('workout/active/<int:bool>',
          WorkoutViewSet.as_view({'get': 'active'}), name="workout_active"),
     
