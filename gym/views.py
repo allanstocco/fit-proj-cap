@@ -115,10 +115,9 @@ class WorkoutExerciseSessionViewSet(viewsets.ModelViewSet):
             print(data)
             
     def update_workout_session(self, request, pk):
-        if request.method == 'PUT':
-            data = request.POST
-            print(data)
-            serializer = WorkoutExerciseSessionSerializer(data=data)
+        data = request.POST
+        print(data)
+        serializer = WorkoutExerciseSessionSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data,status=status.HTTP_201_CREATED)
