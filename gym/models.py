@@ -49,9 +49,9 @@ class Exercises(models.Model):
 
 class WorkoutExerciseSession(models.Model):
     workout_id = models.ForeignKey(
-        Workout, on_delete=models.CASCADE, related_name='user_workout_session', related_query_name='user_workout_session')
+        Workout, on_delete=models.CASCADE, null=True, blank=True, related_name='user_workout_session', related_query_name='user_workout_session')
     exercise = models.ForeignKey(
-        Exercises, on_delete=models.CASCADE, related_name='exercises', related_query_name='exercises')
+        Exercises, on_delete=models.CASCADE, null=True, blank=True, related_name='exercises', related_query_name='exercises')
     date_name = models.CharField(
         default='', max_length=20, null=True, blank=True)
     date = models.DateField(null=True, blank=True)

@@ -5,11 +5,11 @@ from rest_framework.response import Response
 from django.http import HttpResponseRedirect
 from datetime import date
 
-
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.urls import reverse
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 from user.serializer import *
 from .serializer import *
@@ -84,6 +84,16 @@ class WorkoutViewSet(viewsets.ModelViewSet):
         serialize = WorkoutSerializer(active_workout, many=True)
         return Response(serialize.data, status=status.HTTP_200_OK)
 
+    def create_workout(self, request):
+        data = request.data
+        serializer = WorkoutSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            print(serializer.errors)
+            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+
 
 class WorkoutExerciseSessionViewSet(viewsets.ModelViewSet):
     queryset = WorkoutExerciseSession.objects.all()
@@ -98,6 +108,23 @@ class WorkoutExerciseSessionViewSet(viewsets.ModelViewSet):
         print(serialize)
         return Response(serialize.data, status=status.HTTP_200_OK)
 
+    def workouts_active_session_exercises_post(self, request):
+        if request.method == 'POST':
+            data = request.POST
+            print(data)
+
+    def update_workout_session(self, request, pk):
+        if request.method == 'PATCH':
+            workout = WorkoutExerciseSession.objects.get(pk=pk)
+            serializer = WorkoutExerciseSessionSerializer(workout,
+                                                          data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                print(serializer.errors)
+                return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+
 
 class WorkoutExercisesViewSet(viewsets.ModelViewSet):
     queryset = Exercises.objects.all()
@@ -111,9 +138,8 @@ class WorkoutExerciseSessionSetsViewSet(viewsets.ModelViewSet):
     def session_set_exercises_post(self, request):
         data = request.data
         serializer = ExerciseSetSerializer(data=data)
-        print(serializer)
         if serializer.is_valid():
             serializer.save()
-            return Response(status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
