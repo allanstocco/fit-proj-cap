@@ -32,12 +32,13 @@ urlpatterns = [
 
     path('workout/active/<int:bool>',
          WorkoutViewSet.as_view({'get': 'active'}), name="workout_active"),
+
     # newly added
     path('workout/new/post',
          WorkoutViewSet.as_view({'post': 'create_workout'}), name="create_workout_post"),
 
-
-
+    
+    
 
 
     # WORKOUT SESSION DAY
