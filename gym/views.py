@@ -115,15 +115,16 @@ class WorkoutExerciseSessionViewSet(viewsets.ModelViewSet):
             print(data)
             
     def update_workout_session(self, request, pk):
-        data = request.POST
-        print(data)
-        serializer = WorkoutExerciseSessionSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data,status=status.HTTP_201_CREATED)
-        else:
-            print(serializer.errors)
-            return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
+        if request.method == 'PATCH':
+            workout = WorkoutExerciseSession.objects.get(pk=pk)
+            serializer = WorkoutExerciseSessionSerializer(workout,
+            data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data,status=status.HTTP_201_CREATED)
+            else:
+                print(serializer.errors)
+                return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
 
 
 class WorkoutExercisesViewSet(viewsets.ModelViewSet):

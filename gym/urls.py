@@ -45,7 +45,7 @@ urlpatterns = [
          WorkoutExerciseSessionViewSet.as_view({'post': 'workouts_active_session_exercises_post'}), name="workouts_active_session_exercises_post"),
     # Newly added
     path('sessions/workout/patch/<int:pk>',
-         WorkoutExerciseSessionViewSet.as_view({'put': 'update_workout_session'}), name="update_workout"),
+         WorkoutExerciseSessionViewSet.as_view({'patch': 'update_workout_session'}), name="update_workout"),
 
 
 
