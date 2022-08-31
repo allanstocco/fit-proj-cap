@@ -18,7 +18,7 @@ class ExerciseSetSerializer(serializers.ModelSerializer):
 
 class WorkoutExerciseSessionSerializer(serializers.ModelSerializer):
     workout_exercise_set = ExerciseSetSerializer(many=True)
-    exercise_name = serializers.CharField(source='exercise.exercise')
+    exercise_name = serializers.CharField(read_only=True, source='exercise.exercise')
 
     class Meta:
         model = WorkoutExerciseSession
