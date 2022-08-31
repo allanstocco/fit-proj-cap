@@ -29,8 +29,10 @@ urlpatterns = [
          WorkoutViewSet.as_view({'get': 'pair'}), name="workout_pair"),
     path('workout/active/<int:bool>',
          WorkoutViewSet.as_view({'get': 'active'}), name="workout_active"),
-    path('workout/active/post',
+    #newly added
+    path('workout/post',
          WorkoutViewSet.as_view({'post': 'create_workout'}), name="create_workout"),
+    
     
     
     
@@ -41,6 +43,9 @@ urlpatterns = [
     
     path('sessions/workout/exercise/sets/post',
          WorkoutExerciseSessionViewSet.as_view({'post': 'workouts_active_session_exercises_post'}), name="workouts_active_session_exercises_post"),
+    # Newly added
+    path('sessions/workout/patch/<int:pk>',
+         WorkoutExerciseSessionViewSet.as_view({'put': 'update_workout_session'}), name="update_workout"),
 
 
 
