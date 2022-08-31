@@ -13,7 +13,7 @@ class UserProfile(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True, related_name="profile"
     )
     in_challenge = models.BooleanField(default=False)
-    bio = models.TextField()
+    bio = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.account_id.user_name

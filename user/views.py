@@ -5,6 +5,9 @@ from rest_framework.views import APIView
 from .serializer import CustomUserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny
+from .models import *
+from gym.models import *
+from gym.serializer import *
 
 
 class CustomUserCreate(APIView):
@@ -15,6 +18,9 @@ class CustomUserCreate(APIView):
         if serializer.is_valid():
             user = serializer.save()
             if user:
+                instance = NewUser.objects.get(user_name=user)
+                profile = UserProfile(account_id=instance)
+                profile.save()
                 json = serializer.data
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

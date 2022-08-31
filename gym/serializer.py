@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import *
 
 
+
 class ExerciseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exercises
@@ -37,7 +38,13 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     user_workout = WorkoutSerializer(read_only=True, many=True)
-
+    
     class Meta:
         model = UserProfile
-        fields = '__all__'
+        fields = ['account_id', 'in_challenge', 'bio', 'user_workout']
+        
+    def create(self, validated_data):
+        var = validated_data.pop('account_id')
+        return print(var)
+        
+        
