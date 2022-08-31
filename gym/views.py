@@ -1,15 +1,11 @@
 from django.conf import settings
-from django.http import JsonResponse
 from rest_framework import status, viewsets
 from rest_framework.response import Response
-from django.http import HttpResponseRedirect
 from datetime import date
-
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
-from django.urls import reverse
-from django.views.decorators.csrf import ensure_csrf_cookie
+
 
 from user.serializer import *
 from .serializer import *
