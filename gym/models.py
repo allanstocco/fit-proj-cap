@@ -70,7 +70,7 @@ class ExerciseSets(models.Model):
 
 class Email(models.Model):
     account_id = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True, related_name="account_id_email"
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="email_profile", null=True, blank=True
     )
     message_name = models.CharField(
         default='', max_length=200, null=True, blank=True)
