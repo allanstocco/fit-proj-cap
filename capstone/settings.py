@@ -178,8 +178,8 @@ SIMPLE_JWT = {
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.mailtrap.io'
-EMAIL_HOST_USER = '909b86afcf8070'
-EMAIL_HOST_PASSWORD = '4cbc4c9b7a378e'
+EMAIL_HOST_USER = '0d4cb59e5861f8'
+EMAIL_HOST_PASSWORD = 'e7b0781940068c'
 EMAIL_PORT = 2525
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False

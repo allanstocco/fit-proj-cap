@@ -10,9 +10,11 @@ from django.shortcuts import render
 from user.serializer import *
 from .serializer import *
 from .models import *
+from django.views.decorators.csrf import csrf_exempt
 
-
+@csrf_exempt
 def challengeUser(request):
+    print(request)
     if request.method == "POST":
         message_name = request.POST['message_name']
         message_email = request.POST['message_email']
@@ -23,7 +25,7 @@ def challengeUser(request):
             subject=message_name,
             message=message_body,
             from_email=settings.EMAIL_HOST_USER,
-            recipient_list=['allanstocco@gmail.com'],
+            recipient_list=[message_email],
             fail_silently=False,
         )
         return render(request, "email.html", {
@@ -107,6 +109,7 @@ class WorkoutExerciseSessionViewSet(viewsets.ModelViewSet):
     def workouts_active_session_exercises_post(self, request):
         data = request.data
         serializer = WorkoutExerciseSessionSerializer(data=data)
+        print(serializer)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
