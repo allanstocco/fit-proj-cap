@@ -5,7 +5,7 @@ from .models import *
 class ExerciseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exercises
-        fields = '__all__'
+        fields = ['pk','exercise','exercise_description']
 
 
 class ExerciseSetSerializer(serializers.ModelSerializer):
@@ -17,9 +17,14 @@ class ExerciseSetSerializer(serializers.ModelSerializer):
 
 class WorkoutExerciseSessionSerializer(serializers.ModelSerializer):
     workout_exercise_set = ExerciseSetSerializer(read_only=True, many=True)
+<<<<<<< HEAD
     exercise_name = serializers.CharField(
         read_only=True, source='exercise.exercise')
 
+=======
+    exercise_name = serializers.CharField(read_only=True, source='exercise.exercise')
+    
+>>>>>>> e3f42217136276f4a8a3c1ba22c9b8f8b21446c0
     class Meta:
         model = WorkoutExerciseSession
         fields = ['pk', 'workout_id', 'exercise', 'exercise_name', 'date_name',
