@@ -62,6 +62,12 @@ class ProfileViewSet(viewsets.ModelViewSet):
         serializer = WorkoutSerializer(user_workouts_active, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def user_workouts_inactive(self, request, pk):
+        user_workouts_active = Workout.objects.filter(
+            user_profile=pk, active=False)
+        serializer = WorkoutSerializer(user_workouts_active, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 class ExercisesViewSet(viewsets.ModelViewSet):
     queryset = Exercises.objects.all()

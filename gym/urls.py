@@ -16,6 +16,9 @@ urlpatterns = [
          ProfileViewSet.as_view({'get': 'user_workouts'}), name="profile_workouts"),
     path('profile/workouts/<int:pk>/active',
          ProfileViewSet.as_view({'get': 'user_workouts_active'}), name="profile_workouts_active"),
+    path('profile/workouts/<int:pk>/inactive',
+         ProfileViewSet.as_view({'get': 'user_workouts_inactive'}), name="profile_workouts_inactive"),
+    
 
     # EXERCISES PATHS
     path('exercises', ExercisesViewSet.as_view(
