@@ -115,6 +115,7 @@ class WorkoutExerciseSessionViewSet(viewsets.ModelViewSet):
 
     def workouts_active_session(self, request, pk):
         today = date.today()
+        print(today)
         user_workouts_active = WorkoutExerciseSession.objects.filter(
             workout_id=pk, date=today)
         serialize = WorkoutExerciseSessionSerializer(

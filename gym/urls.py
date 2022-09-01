@@ -50,7 +50,7 @@ urlpatterns = [
 
     # WORKOUT SESSION DAY
     path('sessions/workout/<int:pk>/sessionday',
-         WorkoutExerciseSessionViewSet.as_view({'get': 'workouts_active_session'}), name="workouts_session_active"),
+         WorkoutExerciseSessionViewSet.as_view({'get': 'workouts_active_session'}), name="workouts_session_active_day"),
 
     path('sessions/workout/exercise/sets/post',
          WorkoutExerciseSessionViewSet.as_view({'post': 'workouts_active_session_exercises_post'}), name="workouts_active_session_exercises_post"),
