@@ -6,7 +6,7 @@ app_name = 'gym'
 
 urlpatterns = [
     # MAIL SERVICE
-    path('email', challengeUser, name="email"),
+    path('email', EmailViewSet.as_view({"post":"challengeUser"}), name="email"),
 
     # PROFILE PATHS
     path('profile', ProfileViewSet.as_view({'get': 'list'}), name="profile"),

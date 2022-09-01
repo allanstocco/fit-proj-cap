@@ -47,4 +47,9 @@ class UserSerializer(serializers.ModelSerializer):
         var = validated_data.pop('account_id')
         return print(var)
         
+class EmailSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Email
+        fields = ['message_name','message_email','message_body']
         

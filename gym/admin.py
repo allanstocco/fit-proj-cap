@@ -24,8 +24,15 @@ class ExerciseSetsAdmin(admin.ModelAdmin):
     class Meta:
         model = WorkoutExerciseSession
         
+class EmailAdmin(admin.ModelAdmin):
+    list_display = ['exercise_sets']
+
+    class Meta:
+        model = Email
+        
 admin.site.register(UserProfile)
 admin.site.register(Exercises)
 admin.site.register(WorkoutExerciseSession, WorkoutExerciseSessionAdmin)
 admin.site.register(ExerciseSets, ExerciseSetsAdmin)
 admin.site.register(Workout, WorkoutModelAdmin)
+admin.site.register(Email)

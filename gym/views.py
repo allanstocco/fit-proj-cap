@@ -10,31 +10,51 @@ from django.shortcuts import render
 from user.serializer import *
 from .serializer import *
 from .models import *
-from django.views.decorators.csrf import csrf_exempt
+import json
 
-@csrf_exempt
-def challengeUser(request):
-    print(request)
-    if request.method == "POST":
-        message_name = request.POST['message_name']
-        message_email = request.POST['message_email']
-        message_body = request.POST['message_body']
-        print(message_name)
-
-        send_mail(
-            subject=message_name,
-            message=message_body,
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[message_email],
-            fail_silently=False,
-        )
-        return render(request, "email.html", {
-            'msg': 'Mail sent successfully!'
-        })
-    else:
-        return render(request, "email.html", {
-            'msg': 'Something went wrong =('
-        })
+class EmailViewSet(viewsets.ModelViewSet):
+    queryset = Email.objects.all()
+    serializer_class = EmailSerializer
+    
+    
+    def challengeUser(self, request):
+        data = request.data
+        serializer = EmailSerializer(data=data)
+        print(serializer)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            print(serializer.errors)
+            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+        # if request.method == "POST":
+        #     print("************")
+        #     print("************")
+        #     print(json.dumps(request))
+        #     print("************")
+        #     print("************")
+        #     return print(type(request.body))
+            #     message_name = request.POST['message_name']
+            #     message_email = request.POST['message_email']
+            #     message_body = request.POST['message_body']
+            #     print(message_name)
+            #     send_mail(
+            #         subject=message_name,
+            #         message=message_body,
+            #         from_email=settings.EMAIL_HOST_USER,
+            #         recipient_list=[message_email],
+            #         fail_silently=False,
+            #     )
+            #     return render(request, "email.html", {
+            #         'msg': 'Mail sent successfully!'
+            #     })
+            # else:
+            #     return render(request, "email.html", {
+            #         'msg': 'Something went wrong =('
+            #     })
+        #     pass
+        # else:
+        #     pass
 
 
 class ProfileViewSet(viewsets.ModelViewSet):
