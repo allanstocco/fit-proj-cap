@@ -2,7 +2,6 @@ from rest_framework import serializers
 from .models import *
 
 
-
 class ExerciseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exercises
@@ -18,7 +17,8 @@ class ExerciseSetSerializer(serializers.ModelSerializer):
 
 class WorkoutExerciseSessionSerializer(serializers.ModelSerializer):
     workout_exercise_set = ExerciseSetSerializer(read_only=True, many=True)
-    exercise_name = serializers.CharField(read_only=True, source='exercise.exercise')
+    exercise_name = serializers.CharField(
+        read_only=True, source='exercise.exercise')
 
     class Meta:
         model = WorkoutExerciseSession
@@ -38,13 +38,11 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     user_workout = WorkoutSerializer(read_only=True, many=True)
-    
+
     class Meta:
         model = UserProfile
         fields = ['account_id', 'in_challenge', 'bio', 'user_workout']
-        
+
     def create(self, validated_data):
         var = validated_data.pop('account_id')
         return print(var)
-        
-        
