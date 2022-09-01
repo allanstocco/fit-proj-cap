@@ -11,40 +11,35 @@ import json
 from user.serializer import *
 from .serializer import *
 from .models import *
-from django.views.decorators.csrf import csrf_exempt
+import json
 
 
-@csrf_exempt
-def challengeUser(request):
-    print(request)
-    if request.method == "POST":
-        name = request.body.to_json()
-        print(name)
-        
-        
-      
-        #     message_name = request.POST['message_name']
-        #     message_email = request.POST['message_email']
-        #     message_body = request.POST['message_body']
-        #     print(message_name)
+class EmailViewSet(viewsets.ModelViewSet):
+    queryset = Email.objects.all()
+    serializer_class = EmailSerializer
 
-        #     send_mail(
-        #         subject=message_name,
-        #         message=message_body,
-        #         from_email=settings.EMAIL_HOST_USER,
-        #         recipient_list=[message_email],
-        #         fail_silently=False,
-        #     )
-        #     return render(request, "email.html", {
-        #         'msg': 'Mail sent successfully!'
-        #     })
-        # else:
-        #     return render(request, "email.html", {
-        #         'msg': 'Something went wrong =('
-        #     })
-        pass
-    else:
-        pass
+    def challengeUser(self, request):
+        data = request.data
+        serializer = EmailSerializer(data=data)
+        print(serializer)
+        if serializer.is_valid():
+            serializer.save()
+            data = serializer.validated_data
+            message_name = data.get('message_body')
+            message_email = data.get('message_email')
+            message_body = data.get('message_body')
+
+            send_mail(
+                message_name,
+                message_body,
+                settings.EMAIL_HOST_USER,
+                [message_email],
+                fail_silently=False,
+            )
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            print(serializer.errors)
+            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ProfileViewSet(viewsets.ModelViewSet):

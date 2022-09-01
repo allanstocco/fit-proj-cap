@@ -66,3 +66,15 @@ class ExerciseSets(models.Model):
                                       related_name='workout_exercise_set', related_query_name='workout_exercise_set', null=True, blank=True)
     reps = models.IntegerField(default=0, blank=True, null=True)
     weights = models.IntegerField(default=0, blank=True, null=True)
+
+
+class Email(models.Model):
+    account_id = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="email_profile", null=True, blank=True
+    )
+    message_name = models.CharField(
+        default='test', max_length=200, null=True, blank=False)
+    message_email = models.CharField(
+        default='test@test.com', max_length=200, null=True, blank=False)
+    message_body = models.CharField(
+        default='testing', max_length=5000, null=True, blank=False)
