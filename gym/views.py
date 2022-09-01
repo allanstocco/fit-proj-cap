@@ -103,6 +103,11 @@ class WorkoutViewSet(viewsets.ModelViewSet):
             print(serializer.errors)
             return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
+    def unique_string(self, request, unique_str):
+        workout_unique = Workout.objects.filter(unique_str=unique_str)
+        serialize = WorkoutSerializer(workout_unique, many=True)
+        return Response(serialize.data, status=status.HTTP_200_OK)
+
 
 class WorkoutExerciseSessionViewSet(viewsets.ModelViewSet):
     queryset = WorkoutExerciseSession.objects.all()

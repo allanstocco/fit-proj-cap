@@ -6,7 +6,8 @@ app_name = 'gym'
 
 urlpatterns = [
     # MAIL SERVICE
-    path('email', EmailViewSet.as_view({"post":"challengeUser"}), name="email"),
+    path('email', EmailViewSet.as_view(
+        {"post": "challengeUser"}), name="email"),
 
     # PROFILE PATHS
     path('profile', ProfileViewSet.as_view({'get': 'list'}), name="profile"),
@@ -18,7 +19,7 @@ urlpatterns = [
          ProfileViewSet.as_view({'get': 'user_workouts_active'}), name="profile_workouts_active"),
     path('profile/workouts/<int:pk>/inactive',
          ProfileViewSet.as_view({'get': 'user_workouts_inactive'}), name="profile_workouts_inactive"),
-    
+
 
     # EXERCISES PATHS
     path('exercises', ExercisesViewSet.as_view(
@@ -36,12 +37,15 @@ urlpatterns = [
     path('workout/active/<int:bool>',
          WorkoutViewSet.as_view({'get': 'active'}), name="workout_active"),
 
+    path('workout/unique_string/<str:unique_str>',
+         WorkoutViewSet.as_view({'get': 'unique_string'}), name="workout_unique_string"),
+
     # newly added
     path('workout/new/post',
          WorkoutViewSet.as_view({'post': 'create_workout'}), name="create_workout_post"),
 
-    
-    
+
+
 
 
     # WORKOUT SESSION DAY
