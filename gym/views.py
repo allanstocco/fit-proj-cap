@@ -20,9 +20,24 @@ class EmailViewSet(viewsets.ModelViewSet):
     def challengeUser(self, request):
         data = request.data
         serializer = EmailSerializer(data=data)
+        
         print(serializer)
         if serializer.is_valid():
             serializer.save()
+            message_name = str(serializer['message_name'])
+            message_email = str(serializer['message_email'])
+            message_body = str(serializer['message_body'])
+            print(type(message_name))
+            
+            send_mail(
+            f"{message_name} testing",
+            message_body,
+            settings.EMAIL_HOST_USER,
+            [message_email],
+            fail_silently=False,
+        )
+            
+            
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             print(serializer.errors)
