@@ -24,13 +24,14 @@ class EmailViewSet(viewsets.ModelViewSet):
         print(serializer)
         if serializer.is_valid():
             serializer.save()
-            message_name = str(serializer['message_name'])
-            message_email = str(serializer['message_email'])
-            message_body = str(serializer['message_body'])
+            data = serializer.validated_data
+            message_name = data.get('message_body')
+            message_email = data.get('message_email')
+            message_body = data.get('message_body')
             print(type(message_name))
             
             send_mail(
-            f"{message_name} testing",
+            message_name,
             message_body,
             settings.EMAIL_HOST_USER,
             [message_email],

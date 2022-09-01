@@ -73,8 +73,8 @@ class Email(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="email_profile", null=True, blank=True
     )
     message_name = models.CharField(
-        default='', max_length=200, null=True, blank=True)
+        default='test', max_length=200, null=True, blank=False)
     message_email = models.CharField(
-        default='', max_length=200, null=True, blank=True)
+        default='test@test.com', max_length=200, null=True, blank=False)
     message_body = models.CharField(
-        default='', max_length=5000, null=True, blank=True)
+        default='testing', max_length=5000, null=True, blank=False)
