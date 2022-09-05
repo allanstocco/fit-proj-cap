@@ -5,6 +5,7 @@ from datetime import date
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
+from django.template.loader import render_to_string, get_template
 import json
 
 
@@ -28,14 +29,15 @@ class EmailViewSet(viewsets.ModelViewSet):
             message_name = data.get('message_body')
             message_email = data.get('message_email')
             message_body = data.get('message_body')
+            message = render_to_string('invite.html', {
+                'message_name': message_name,
+                'message_email': message_email,
+                'message_body': message_body
+            })
 
-            send_mail(
-                message_name,
-                message_body,
-                settings.EMAIL_HOST_USER,
-                [message_email],
-                fail_silently=False,
-            )
+            send_mail(message_name, message, None, [
+                      'gym-pro@service.com'], fail_silently=False)
+
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             print(serializer.errors)
@@ -115,7 +117,7 @@ class WorkoutExerciseSessionViewSet(viewsets.ModelViewSet):
 
     def workouts_active_session(self, request, pk):
         today = date.today()
-        print(today)
+
         user_workouts_active = WorkoutExerciseSession.objects.filter(
             workout_id=pk, date=today)
         serialize = WorkoutExerciseSessionSerializer(

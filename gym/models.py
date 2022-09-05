@@ -29,10 +29,10 @@ class Workout(models.Model):
         max_length=20, blank=True, choices=goals)
     unique_str = models.CharField(
         max_length=150, null=True, blank=True)
-    start_time = models.DateTimeField(null=True, blank=True)
-    end_time = models.DateTimeField(null=True, blank=True)
+    start_time = models.DateField(null=True, blank=True)
+    end_time = models.DateField(null=True, blank=True)
     active = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.user_profile} - {self.workout_description}'
